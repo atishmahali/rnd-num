@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-random-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-random
+  template:
+    metadata:
+      labels:
+        app: flask-random
+    spec:
+      containers:
+      - name: flask-container
+        image: image-registry.openshift-image-registry.svc:5000/<your-project>/flask-random:latest
+        ports:
+        - containerPort: 8080
