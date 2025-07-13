@@ -2,8 +2,15 @@
   hosts: localhost
   vars:
     project: flask-random-app
+
   tasks:
-    - name: Ensure OpenShift project exists
+    - name: Login to OpenShift using username/password
+      command: >
+        oc login -u {{ ansible_user }} -p {{ ansible_password }}
+        --server=https://api.cluster-fw7hk.fw7hk.sandbox1722.opentlc.com:6443
+        --insecure-skip-tls-verify
+
+    - name: Create project (ignore if exists)
       command: oc new-project {{ project }}
       register: project_create
       failed_when: false
@@ -15,7 +22,7 @@
     - name: Apply BuildConfig
       command: oc apply -f buildconfig.yaml -n {{ project }}
 
-    - name: Start build
+    - name: Start build and wait
       command: oc start-build flask-random-build -n {{ project }} --wait
 
     - name: Apply Deployment
