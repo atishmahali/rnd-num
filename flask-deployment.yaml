@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: flask-container
-        image: image-registry.openshift-image-registry.svc:5000/<your-project>/flask-random:latest
+        image: image-registry.openshift-image-registry.svc:5000/aap/flask-random:latest
         ports:
         - containerPort: 8080
