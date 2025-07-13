@@ -6,7 +6,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/YOUR_GITHUB_REPO/flask-app-openshift
+      uri: https://github.com/atishmahali/rnd-num.git
   strategy:
     type: Docker
   output:
