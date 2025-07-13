@@ -1,5 +1,6 @@
 from flask import Flask, render_template_string
 import random
+import socket  # 👈 Added to get IP/hostname info
 
 app = Flask(__name__)
 
@@ -50,4 +51,7 @@ def random_number():
     return render_template_string(html, number=number)
 
 if __name__ == "__main__":
+    print("🔥 HOSTNAME:", socket.gethostname())
+    print("🔥 IP ADDRESS:", socket.gethostbyname(socket.gethostname()))
+    print("✅ Starting Flask on 0.0.0.0:8080")
     app.run(host="0.0.0.0", port=8080)
