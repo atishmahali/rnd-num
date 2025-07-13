@@ -1,0 +1,28 @@
+- name: Deploy Flask App to OpenShift using oc apply
+  hosts: localhost
+  vars:
+    project: flask-random-app
+  tasks:
+    - name: Ensure OpenShift project exists
+      command: oc new-project {{ project }}
+      register: project_create
+      failed_when: false
+      changed_when: "'created' in project_create.stdout"
+
+    - name: Apply ImageStream
+      command: oc apply -f imagestream.yaml -n {{ project }}
+
+    - name: Apply BuildConfig
+      command: oc apply -f buildconfig.yaml -n {{ project }}
+
+    - name: Start build
+      command: oc start-build flask-random-build -n {{ project }} --wait
+
+    - name: Apply Deployment
+      command: oc apply -f deployment.yaml -n {{ project }}
+
+    - name: Apply Service
+      command: oc apply -f service.yaml -n {{ project }}
+
+    - name: Apply Route
+      command: oc apply -f route.yaml -n {{ project }}
