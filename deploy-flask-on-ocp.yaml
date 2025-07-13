@@ -1,0 +1,51 @@
+---
+- name: Deploy Flask App to OpenShift using BuildConfig
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Login to OpenShift
+      kubernetes.core.k8s_auth:
+        host: https://api.<your-cluster>:6443
+        api_key: "{{ openshift_token }}"
+        verify_ssl: false
+
+    - name: Create BuildConfig
+      kubernetes.core.k8s:
+        state: present
+        src: flask-buildconfig.yaml
+
+    - name: Start the Build
+      kubernetes.core.k8s:
+        api_version: build.openshift.io/v1
+        kind: Build
+        namespace: <your-project>
+        state: present
+        definition:
+          metadata:
+            generateName: flask-random-build-
+          spec:
+            source:
+              type: Git
+              git:
+                uri: https://github.com/<your-username>/flask-random-app.git
+            strategy:
+              type: Docker
+            output:
+              to:
+                kind: ImageStreamTag
+                name: flask-random:latest
+
+    - name: Create Deployment
+      kubernetes.core.k8s:
+        state: present
+        src: flask-deployment.yaml
+
+    - name: Create Service
+      kubernetes.core.k8s:
+        state: present
+        src: flask-service.yaml
+
+    - name: Create Route
+      kubernetes.core.k8s:
+        state: present
+        src: flask-route.yaml
