@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-random-app
+  name: flask-random
+  namespace: flask-random-app
 spec:
   replicas: 1
   selector:
@@ -13,7 +14,7 @@ spec:
         app: flask-random
     spec:
       containers:
-      - name: flask-container
-        image: image-registry.openshift-image-registry.svc:5000/aap/flask-random:latest
-        ports:
-        - containerPort: 8080
+        - name: flask-container
+          image: image-registry.openshift-image-registry.svc:5000/flask-random-app/flask-random:latest
+          ports:
+            - containerPort: 8080
