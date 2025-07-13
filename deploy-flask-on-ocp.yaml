@@ -3,11 +3,6 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Login to OpenShift
-      kubernetes.core.k8s_auth:
-        host: https://api.<your-cluster>:6443
-        api_key: "   sha256~hzoVZEpqUj0CwCbGbSfqD1aFhedAcSO1RjE4XLBeHNI"
-        verify_ssl: false
 
     - name: Create BuildConfig
       kubernetes.core.k8s:
