@@ -2,6 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: flask-random-route
+  namespace: flask-random-app
 spec:
   to:
     kind: Service
