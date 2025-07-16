@@ -2,18 +2,13 @@
   hosts: localhost
   vars:
     project: flask-random-app
-    openshift_api_url: https://api.cluster-fw7hk.fw7hk.sandbox1722.opentlc.com:6443
-    openshift_token: sha256~mrUJGIPJy6SgUyDma1C3Xy70vrv1ku1USc_sCfjnocI
-    openshift_validate_certs: false
 
   tasks:
-    - name: Login to OpenShift using token
+    - name: Login to OpenShift using username/password
       command: >
-        oc login --token={{ openshift_token }}
-        --server={{ openshift_api_url }}
-        {% if not openshift_validate_certs %}
+        oc login -u {{ ansible_user }} -p {{ ansible_password }}
+        --server=https://api.cluster-fw7hk.fw7hk.sandbox1722.opentlc.com:6443
         --insecure-skip-tls-verify
-        {% endif %}
 
     - name: Create project (ignore if exists)
       command: oc new-project {{ project }}
