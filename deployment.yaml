@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-random-app
+  name: flask-random-app1
   labels:
     app: flask-random-app
 spec:
