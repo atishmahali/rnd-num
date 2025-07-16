@@ -1,7 +1,7 @@
 - name: Deploy Flask App to OpenShift using oc apply
   hosts: localhost
   vars:
-    project: flask-random-app1
+    project: flask-random-app
 
   tasks:
     - name: Login to OpenShift using username/password
